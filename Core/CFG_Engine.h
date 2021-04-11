@@ -75,6 +75,15 @@ public:
     void AddProductions(std::vector<Production> const& productions);
 
     void AddEpsilonProduction(std::string const& lhs);
+
+    void RemoveAllEpsilonProductions() { nullableSymbols.erase(nullableSymbols.begin(),
+                                                                     nullableSymbols.end()); }
+
+    bool IfHasEpsilonProductions() const { return !nullableSymbols.empty(); }
+
+    void RemoveGhostProductions();
+
+    void RemoveDuplicateProductions();
 };
 
 class SymbolFormatError : public std::runtime_error {

@@ -38,7 +38,7 @@ void StringCombinatorics::GenerateAllCombinations(const std::list<const GrammarS
             FinalizeCombination(combinationMap);
         }
         else{
-            combinationMap.back() = false;
+            combinationMap.push_back(true);
             GenerateAllCombinations(rhs, combinationMap, std::next(iterator), index + 1);
         }
     }
@@ -46,5 +46,13 @@ void StringCombinatorics::GenerateAllCombinations(const std::list<const GrammarS
 }
 
 void StringCombinatorics::FinalizeCombination(std::vector<bool> &combinationMap) {
+    bool mapCompletelyFalse = true;
+    for (int i = 0; i < combinationMap.size(); i++){
+        if (combinationMap[i]) mapCompletelyFalse = false;
+    }
+    if (mapCompletelyFalse) {
+        newEpsilons.push_back(&production.GetLhs());
+        return;
+    }
     allCombinations.push_back(Production::CopyCreateProductionWithMask(production, combinationMap));
 }

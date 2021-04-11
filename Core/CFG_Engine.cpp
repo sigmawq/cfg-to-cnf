@@ -123,3 +123,55 @@ bool CFG_Engine::ProductionAlreadyExists(std::string &combinedProduction) const 
     if (it == productionsHashed.end()) return false;
     return true;
 }
+
+void CFG_Engine::RemoveGhostProductions() {
+    std::unordered_map<std::string, bool> usabilitySymbolMap;
+    for (const auto& thing : this->symbolMap){
+        usabilitySymbolMap.emplace(thing.first, false);
+    }
+
+    for (const auto &pair : productions){
+        usabilitySymbolMap.at(pair.first) = true;
+    }
+
+    auto it = productions.begin();
+    while (it != productions.end()){
+        auto& productionList = (*it).second.rhs;
+
+        for (auto itList = productionList.begin(); itList != productionList.end();){
+            auto &element = *itList;
+            if (!usabilitySymbolMap.at(element->Value()) && !symbolMap.at(element->Value()).IsTerminal()){
+                itList = productionList.erase(itList);
+            }
+            else{
+                itList++;
+            }
+        }
+        if (productionList.empty()){
+            it = productions.erase(it);
+        }
+        else{
+            it++;
+        }
+    }
+}
+
+void CFG_Engine::RemoveDuplicateProductions() {
+    auto currentIt = productions.begin();
+    while (currentIt != productions.end()){
+        auto it = currentIt;
+        while (it != productions.end()){
+            std::string currentElementCombinedString = (*it).second.lhs.Value();
+            for (const auto& symbol : (*it).second.rhs){
+                currentElementCombinedString += symbol->Value();
+            }
+            if (currentIt->second == it->second && it != currentIt){
+                it = productions.erase(it);
+            }
+            else{
+                it++;
+            }
+        }
+        currentIt++;
+    }
+}

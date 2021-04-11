@@ -46,3 +46,8 @@ std::vector<bool> Production::FormRemovableSymbolsMap(const std::unordered_set<c
 
     return result;
 }
+
+bool Production::operator==(const Production &other) const {
+    return std::hash<std::string>{}(other.ToString()) ==
+            std::hash<std::string>{}(this->ToString());
+}

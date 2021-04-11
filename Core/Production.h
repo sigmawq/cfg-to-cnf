@@ -14,7 +14,10 @@
 
 class Production {
     GrammarSymbol const& lhs;
+
     std::list<const GrammarSymbol*> rhs;
+
+    friend class CFG_Engine;
 
 public:
     Production(GrammarSymbol const& lhs) : lhs(lhs) {}
@@ -37,6 +40,8 @@ public:
             &nullableSymbols) const;
 
     static Production CopyCreateProductionWithMask(Production const& other, std::vector<bool> &vector);
+
+    bool operator==(Production const& other) const;
 };
 
 

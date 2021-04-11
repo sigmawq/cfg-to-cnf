@@ -18,6 +18,8 @@ class StringCombinatorics {
 
     std::vector<Production> allCombinations;
 
+    std::vector<const GrammarSymbol *> newEpsilons;
+
     bool SymbolIsRemovable(size_t index) const { return removableSymbolsMap[index]; }
 
     void FinalizeCombination(std::vector<bool> &combinationMap);
@@ -30,6 +32,9 @@ public:
     StringCombinatorics(Production const& production1, std::vector<bool> const& removableSymbolsMap) : production(production1), removableSymbolsMap(removableSymbolsMap) {}
 
     std::vector<Production> GetAllCombinations();
+
+    [[nodiscard]]
+    std::vector<const GrammarSymbol *> const& GetNewEpsilonSymbols() const { return newEpsilons; }
 
 };
 
