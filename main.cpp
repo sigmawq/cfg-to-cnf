@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "Core/CFG_Engine.h"
 #include "CNF/CNF_Converter.h"
@@ -9,6 +10,7 @@ int main() {
         engine.AddProduction("S", {"A", "B", "C"});
         engine.AddProduction("C", {"a"});
         engine.AddProduction("B", {"d"});
+        engine.AddProduction("T", {"S"});
         engine.AddEpsilonProduction("A");
         engine.AddEpsilonProduction("B");
         engine.AddEpsilonProduction("C");

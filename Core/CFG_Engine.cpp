@@ -54,6 +54,7 @@ std::vector<const Production *> CFG_Engine::GetAllProductionOfLhs(const std::str
         result.push_back(&it.first->second);
         ++it.first;
     }
+    return result;
 }
 
 bool CFG_Engine::SymbolExists(std::string const& value) const {

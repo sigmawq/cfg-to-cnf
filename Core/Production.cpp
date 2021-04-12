@@ -51,3 +51,11 @@ bool Production::operator==(const Production &other) const {
     return std::hash<std::string>{}(other.ToString()) ==
             std::hash<std::string>{}(this->ToString());
 }
+
+bool Production::IsUnitProduction() {
+    if (rhs.size() == 1){
+        auto el = (*rhs.begin());
+        if (!el->IsTerminal()) return true;
+    }
+    return false;
+}

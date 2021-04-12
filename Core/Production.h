@@ -42,6 +42,8 @@ public:
     static Production CopyCreateProductionWithMask(Production const& other, std::vector<bool> &vector);
 
     bool operator==(Production const& other) const;
+
+    bool IsUnitProduction();
 };
 
 
