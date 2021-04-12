@@ -64,6 +64,14 @@ std::string CFG_Engine::ToString() const {
         }
         result += '\n';
     }
+    for (const GrammarSymbol * s : this->nullableSymbols){
+        result += '<';
+        result += s->Value();
+        result += '>';
+        result += " -> ";
+        result += "ε";
+        result += '\n';
+    }
     return result;
 }
 
