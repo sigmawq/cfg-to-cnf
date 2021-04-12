@@ -63,7 +63,7 @@ public:
     const std::unordered_set<const GrammarSymbol *> & GetAllDirectlyNullableSymbols() const;
 
     // Any symbol starting with a lowercase is considered a TERMINAL
-    void AddProduction(std::string const& lhs, std::vector<std::string> const& rhs);
+    const GrammarSymbol & AddProduction(std::string const& lhs, std::vector<std::string> const& rhs);
 
     // Establish production between existing symbols
     void AddProduction(const GrammarSymbol &lhs, std::list<const GrammarSymbol*> const& rhs);

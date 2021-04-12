@@ -9,10 +9,15 @@
 #include <unordered_map>
 #include <set>
 #include "../Core/CFG_Engine.h"
+#include "../Core/GrammarSymbolGenerator.h"
+
+#include "../Utility/ListUtility.h"
 
 class CNF_Converter {
 
     CFG_Engine &cfgEngine;
+
+    [[maybe_unused]] GrammarSymbolGenerator symbolGenerator;
 
     void Convert();
 
@@ -20,7 +25,7 @@ class CNF_Converter {
 
     void RemoveEpsilonProductions();
 
-    void TransitUnitProduction(Production const& production, std::unordered_multimap<std::string,
+    void TransitUnitProduction(Production & production, std::unordered_multimap<std::string,
                                Production> const& guf);
 
     void RemoveUnitProductions();
@@ -30,6 +35,10 @@ class CNF_Converter {
                           std::set<const Production *> &visitedNodes);
 
     void RemoveUnreachableProductions();
+
+    const GrammarSymbol * RecursiveReplace(std::list<const GrammarSymbol *> const& currentString);
+
+    void ApplyCNF();
 
 public:
 

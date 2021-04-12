@@ -24,13 +24,14 @@ const GrammarSymbol* CFG_Engine::FindSymbol(const std::string &value) const {
     }
 }
 
-void CFG_Engine::AddProduction(const std::string &lhs, const std::vector<std::string> &rhs) {
+GrammarSymbol const& CFG_Engine::AddProduction(const std::string &lhs, const std::vector<std::string> &rhs) {
     const GrammarSymbol & lhs_value = AddSymbol(lhs);
     std::list<const GrammarSymbol*> rhs_values;
     for (const auto &symbol : rhs){
         rhs_values.emplace_back(&AddSymbol(symbol));
     }
     AddProduction(lhs_value, rhs_values);
+    return lhs_value;
 }
 
 void CFG_Engine::AddProduction(GrammarSymbol const& lhs, std::list<const GrammarSymbol*> const& rhs) {
@@ -40,8 +41,27 @@ void CFG_Engine::AddProduction(GrammarSymbol const& lhs, std::list<const Grammar
 
 std::string CFG_Engine::ToString() const {
     std::string result;
-    for (const auto& el : productions){
-        result += el.second.ToString();
+
+    for (const auto& el : symbolMap){
+        if (el.second.IsTerminal()) continue;
+
+        auto allRhs = GetAllProductionOfLhs(el.first);
+
+        if (allRhs.size() == 0) continue;
+
+        result += '<';
+        result += el.first;
+        result += '>';
+        result += " -> ";
+
+        int counter = 0;
+        for (const auto& pair : allRhs){
+            result += pair->ToString_Rhs();
+            if (counter < allRhs.size() - 1){
+                result += " | ";
+            }
+            counter++;
+        }
         result += '\n';
     }
     return result;

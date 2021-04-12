@@ -9,11 +9,7 @@ std::string Production::ToString() const {
     std::string result = lhs.Value();
     result += " -> ";
 
-    for (auto &el : rhs){
-        result += el->Value();
-    }
-
-    if (IsEpsilonProduction()) result = "ε";
+    result += ToString_Rhs();
 
     return result;
 }
@@ -58,4 +54,32 @@ bool Production::IsUnitProduction() {
         if (!el->IsTerminal()) return true;
     }
     return false;
+}
+
+std::list<const GrammarSymbol *> Production::GetPrefix(size_t size) const {
+    if (size > rhs.size() - 1) throw std::runtime_error("Requested prefix longer than RHS itself");
+    return std::list<const GrammarSymbol *> { rhs.begin(), std::next(rhs.begin(), size) };
+}
+
+std::list<const GrammarSymbol *> Production::GetLongestPrefix() const {
+    return GetPrefix(rhs.size() - 1);
+}
+
+std::string Production::ToString_Rhs() const {
+    std::string result;
+
+    int counter = 0;
+    for (auto &el : rhs){
+        result += '<';
+        result += el->Value();
+        result += '>';
+        if (counter != rhs.size() - 1){
+            result += ' ';
+        }
+        counter++;
+    }
+
+    if (IsEpsilonProduction()) result = "ε";
+
+    return result;
 }

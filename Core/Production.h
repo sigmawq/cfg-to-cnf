@@ -30,14 +30,22 @@ public:
 
     [[nodiscard]] std::string ToString() const;
 
+    [[nodiscard]] std::string ToString_Rhs() const;
+
     [[nodiscard]] size_t Length() const { return rhs.size(); }
 
     [[nodiscard]] const std::list<const GrammarSymbol*>& GetRhs() const { return rhs; }
+
+    [[nodiscard]] std::list<const GrammarSymbol*>& GetRhs_Mutable() { return rhs; }
 
     [[nodiscard]] const GrammarSymbol& GetLhs() const { return lhs; }
 
     [[nodiscard]] std::vector<bool> FormRemovableSymbolsMap(const std::unordered_set<const GrammarSymbol *>
             &nullableSymbols) const;
+
+    [[nodiscard]] std::list<const GrammarSymbol *> GetPrefix(size_t size) const;
+
+    [[nodiscard]] std::list<const GrammarSymbol *> GetLongestPrefix() const;
 
     static Production CopyCreateProductionWithMask(Production const& other, std::vector<bool> &vector);
 

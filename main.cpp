@@ -7,15 +7,16 @@ int main() {
     try{
         CFG_Engine engine { "S" };
 
-        engine.AddProduction("S", {"A", "B", "C"});
-        engine.AddProduction("C", {"a"});
-        engine.AddProduction("B", {"d"});
-        engine.AddProduction("T", {"S"});
-        engine.AddEpsilonProduction("A");
-        engine.AddEpsilonProduction("B");
-        engine.AddEpsilonProduction("C");
-
-        std::cout << engine.ToString();
+        engine.AddProduction("S", {"D", "A"});
+        engine.AddProduction("S", {"a", "B"});
+        engine.AddProduction("A", {"a"});
+        engine.AddProduction("A", {"B", "D"});
+        engine.AddProduction("A", {"b", "D", "A", "B"});
+        engine.AddProduction("B", {"b"});
+        engine.AddProduction("B", {"B", "A"});
+        engine.AddProduction("D", {"B", "A"});
+        engine.AddProduction("C", {"B", "A"});
+        engine.AddEpsilonProduction("D");
 
         CNF_Converter converter { engine };
 
